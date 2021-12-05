@@ -1,4 +1,4 @@
-
+# https://interlos.fi.muni.cz/download/years/2021/sada2/connections.zip
 with open('connections.txt') as f:
     lines = f.readlines()
     connections = {}
@@ -17,20 +17,21 @@ with open('connections.txt') as f:
         connections[to].append(fr)
 
 
-    newCons = {}
     prevLen = 0
     iteration = 0
-    droppedCons = []
     while prevLen != len(connections):
-        print(iteration)
+        newCons = {}
+        droppedCons = set()
+        print("Iteration: ", iteration)
         iteration += 1
         prevLen = len(connections.keys())
         for i,v in connections.items():
-            if len(v) >= 20:
+            if len(v) >= 20 and len(v) < prevLen-20:
                 newCons[i] = v
             else: 
-                droppedCons.append(i)
+                droppedCons.add(i)
         for i,v in newCons.items():
             newCons[i] = [k for k in v if k not in droppedCons]
         connections = newCons
+        print(prevLen)
 
